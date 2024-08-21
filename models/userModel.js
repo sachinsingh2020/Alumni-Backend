@@ -27,7 +27,17 @@ const schema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "user",
+        required: [true, "Please enter your role"],
+    },
+    profilePic: {
+        public_id: {
+            type: String,
+            required: true,
+        },
+        url: {
+            type: String,
+            required: true,
+        },
     },
     createdAt: {
         type: Date,

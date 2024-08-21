@@ -7,13 +7,18 @@ class ApiFeatures {
     search() {
         const keyword = this.queryStr.keyword
             ? {
-                name: {
-                    $regex: this.queryStr.keyword,
-                    $options: 'i',
-                }
-            } :
-            {}
-        this.query = this.query.find({ ...keyword });
+                $or: [
+                    { firstName: { $regex: this.queryStr.keyword, $options: 'i' } },
+                    { lastName: { $regex: this.queryStr.keyword, $options: 'i' } },
+                    { jobTitle: { $regex: this.queryStr.keyword, $options: 'i' } },
+                    { companyName: { $regex: this.queryStr.keyword, $options: 'i' } },
+                    { jobLocation: { $regex: this.queryStr.keyword, $options: 'i' } },
+                ]
+            }
+            : {};
+
+
+        this.query = this.query.find(keyword);
         return this;
     }
 
