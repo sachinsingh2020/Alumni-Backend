@@ -26,6 +26,7 @@
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.4",
     "razorpay": "^2.9.4",
-    "validator": "^13.12.0"
+    "validator": "^13.12.0",
+    "vercel": "^37.0.0"
   }
 }

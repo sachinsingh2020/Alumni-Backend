@@ -27,12 +27,12 @@ app.use(cors({
 
 // importing and using routes 
 import user from "./routes/userRoutes.js"
-import payment from "./routes/paymentRoutes.js"
+// import payment from "./routes/paymentRoutes.js"
 import alumni from "./routes/alumniRoutes.js"
 import jobPortal from "./routes/jobPortalRoutes.js"
 
 app.use('/api/v1', user);
-app.use('/api/v1', payment);
+// app.use('/api/v1', payment);
 app.use('/api/v1', alumni);
 app.use('/api/v1', jobPortal);
 
