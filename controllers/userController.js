@@ -14,11 +14,12 @@ import { Alumni } from "../models/alumniModel.js";
 
 export const register = catchAsyncError(async (req, res, next) => {
     // console.log("in the register")
-    const { firstName, lastName, email, password, role } = req.body;
+    const { firstName, lastName, email, password, role, graduationYear, phoneNumber, gender, address, linkedin = "unknown", rollNumber, dateOfBirth, course, branch = "unknown" } = req.body;
 
-    // console.log({ firstName, lastName, email, password });
+    // console.log({ firstName, lastName, email, password, role, graduationYear, phoneNumber, gender, address, linkedin, rollNumber, dateOfBirth, course, branch });
 
-    if (!firstName || !lastName || !email || !password) {
+
+    if (!firstName || !lastName || !email || !password || !role || !graduationYear || !phoneNumber) {
         return next(new ErrorHandler('All fields are required', 400));
     }
 
@@ -48,6 +49,16 @@ export const register = catchAsyncError(async (req, res, next) => {
         email,
         password,
         role,
+        graduationYear,
+        phoneNumber,
+        address,
+        course,
+        branch,
+        linkedin,
+        rollNumber,
+        gender,
+        rollNumber,
+        dateOfBirth,
         profilePic: {
             public_id: mycloud.public_id,
             url: mycloud.secure_url,

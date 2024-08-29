@@ -39,6 +39,38 @@ const schema = new mongoose.Schema({
             required: true,
         },
     },
+    graduationYear: {
+        type: String,
+        required: [true, "Please enter your graduation year"],
+    },
+    phoneNumber: {
+        type: String,
+        required: [true, "Please enter your phone number"],
+    },
+    course: {
+        type: String,
+        required: [true, "Please enter your course"],
+    },
+    branch: {
+        type: String,
+        required: [true, "Please enter your branch"],
+    },
+    address: {
+        type: String,
+        required: [true, "Please enter your address"],
+    },
+    rollNumber: {
+        type: String,
+        required: [true, "Please enter your roll number"],
+    },
+    dateOfBirth: {
+        type: String,
+        required: [true, "Please enter your date of birth"],
+    },
+    linkedin: {
+        type: String,
+        required: [true, "Please enter your linkedin profile"],
+    },
     createdAt: {
         type: Date,
         default: Date.now,
