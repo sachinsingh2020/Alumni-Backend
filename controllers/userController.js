@@ -17,6 +17,7 @@ export const register = catchAsyncError(async (req, res, next) => {
     const { firstName, lastName, email, password, role, graduationYear, phoneNumber, gender, address, linkedin = "unknown", rollNumber, dateOfBirth, course, branch = "unknown" } = req.body;
 
     // console.log({ firstName, lastName, email, password, role, graduationYear, phoneNumber, gender, address, linkedin, rollNumber, dateOfBirth, course, branch });
+    // sachin 
 
 
     if (!firstName || !lastName || !email || !password || !role || !graduationYear || !phoneNumber) {
