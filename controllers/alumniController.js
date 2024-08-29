@@ -103,3 +103,5 @@ export const deleteAlumni = catchAsyncError(async (req, res, next) => {
         message: "Alumni Deleted Successfully",
     });
 });
+
+// sachin 
