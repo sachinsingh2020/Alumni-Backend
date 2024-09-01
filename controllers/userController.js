@@ -204,7 +204,7 @@ export const getAllUsers = catchAsyncError(async (req, res, next) => {
 export const updateUserDetails = catchAsyncError(async (req, res, next) => {
     let user = await User.findById(req.user._id);
 
-    console.log({ user });
+    // console.log({ user });
 
     if (!user) {
         return next(new ErrorHandler("User not found", 404));
@@ -214,6 +214,14 @@ export const updateUserDetails = catchAsyncError(async (req, res, next) => {
         firstName: req.body.firstName || user.firstName,
         lastName: req.body.lastName || user.lastName,
         email: req.body.email || user.email,
+        phoneNumber: req.body.phoneNumber || user.phoneNumber,
+        address: req.body.address || user.address,
+        graduationYear: req.body.graduationYear || user.graduationYear,
+        course: req.body.course || user.course,
+        branch: req.body.branch || user.branch,
+        linkedin: req.body.linkedin || user.linkedin,
+        rollNumber: req.body.rollNumber || user.rollNumber,
+        dateOfBirth: req.body.dateOfBirth || user.dateOfBirth,
         role: user.role,
         profilePic: user.profilePic,
     };
