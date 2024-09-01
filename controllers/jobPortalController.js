@@ -80,7 +80,7 @@ export const getJobById = catchAsyncError(async (req, res, next) => {
 
 export const updateJob = catchAsyncError(async (req, res, next) => {
     let job = await JobPortal.findById(req.params.id);
-    console.log({ job });
+    // console.log({ job });
 
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
@@ -109,7 +109,7 @@ export const deleteJob = catchAsyncError(async (req, res, next) => {
     if (!job) {
         return next(new ErrorHandler("Job not found", 404));
     }
-    console.log({ job });
+    // console.log({ job });
 
     if (job.createdBy.toString() !== req.user._id.toString()) {
         return next(new ErrorHandler("You are not authorized to delete this job", 401));

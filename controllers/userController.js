@@ -226,7 +226,7 @@ export const updateUserDetails = catchAsyncError(async (req, res, next) => {
         profilePic: user.profilePic,
     };
 
-    console.log({ newUserDetails });
+    // console.log({ newUserDetails });
 
     user = await User.findByIdAndUpdate(req.user._id, newUserDetails, {
         new: true,
@@ -255,7 +255,6 @@ export const updateUserProfilePic = catchAsyncError(async (req, res, next) => {
     await cloudinary.v2.uploader.destroy(user.profilePic.public_id);
     const fileUri = getDataUri(file);
     const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
-
     user.profilePic = {
         public_id: mycloud.public_id,
         url: mycloud.secure_url,
