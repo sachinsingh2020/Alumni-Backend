@@ -104,4 +104,17 @@ export const deleteAlumni = catchAsyncError(async (req, res, next) => {
     });
 });
 
+export const getAlumniDetails = catchAsyncError(async (req, res, next) => {
+    const alumni = await Alumni.findById(req.params.id);
+
+    if (!alumni) {
+        return next(new ErrorHandler("Alumni not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        alumni,
+    });
+});
+
 // sachin 
