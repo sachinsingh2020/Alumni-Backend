@@ -55,6 +55,7 @@ export const getAlumni = catchAsyncError(async (req, res, next) => {
     const allAlumni = await apiFeatures.query;
     const reversedAlumnis = allAlumni.reverse();
     let filteredAlumni = reversedAlumnis.length;
+    let filteredAlumniCount = reversedAlumnis.length;
 
     // Pagination 
     const page = Number(req.query.page) || 1;
@@ -68,6 +69,7 @@ export const getAlumni = catchAsyncError(async (req, res, next) => {
         alumniCount,
         resultPerPage,
         filteredAlumni,
+        filteredAlumniCount,
     });
 });
 
