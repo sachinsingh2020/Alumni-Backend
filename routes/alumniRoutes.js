@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route("/alumniregister").post(isAuthenticated, alumniRegister);
 
-router.route("/alumni").get(isAuthenticated, getAlumni);
+router.route("/alumni").get(getAlumni);
 
 router.route("/deletealumni/:id").delete(deleteAlumni);
 
