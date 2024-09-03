@@ -5,13 +5,17 @@ import { User } from "../models/userModel.js";
 import ApiFeatures from "../utils/apiFeatures.js";
 import cloudinary from "cloudinary";
 import { JobPortal } from "../models/jobPortalModel.js";
+import getDataUri from "../utils/dataUri.js";
+import { sendToken } from "../utils/sendToken.js";
+
 
 export const alumniRegister = catchAsyncError(async (req, res, next) => {
-    const existingUser = req.user;
+    console.log('in the alumni register controller');
+    const { firstName, lastName, email, password, dateOfBirth = "unknown", role = "alumni", graduationYear = "unknown", fieldOfStudy = "unknown", profession = "unknown", industry = "unknown", jobLocation = "unknown", linkedin = "unknown", github = "unknown", twitter = "unknown", instagram = "unknown", portfolio = "unknown" } = req.body;
 
-    const { graduationYear, fieldOfStudy, profession, industry, jobLocation, linkedin = "unknown", github = "unknown", twitter = "unknown", instagram = "unknown", portfolio = "unknown" } = req.body;
+    console.log({ firstName, lastName, email, password, dateOfBirth, role, graduationYear, fieldOfStudy, profession, industry, jobLocation, linkedin, github, twitter, instagram, portfolio });
 
-    const alreadyExist = await Alumni.findOne({ email: existingUser.email });
+    const alreadyExist = await Alumni.findOne({ email: email });
 
     // console.log({ alreadyExist });
 
@@ -19,18 +23,30 @@ export const alumniRegister = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("You are already registered as an Alumni", 400));
     }
 
+
+    const file = req.file;
+
+
+    if (!file) {
+        return next(new ErrorHandler('Please upload an image file', 400));
+    }
+
+    const fileUri = getDataUri(file);
+    // console.log({ fileUri });
+
+    const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
     const newUser = await Alumni.create({
-        user: existingUser._id,
-        firstName: existingUser.firstName,
-        lastName: existingUser.lastName,
-        email: existingUser.email,
-        profilePic: existingUser.profilePic,
-        role: existingUser.role,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        role: role,
         graduationYear,
         fieldOfStudy,
         profession,
         industry,
         jobLocation,
+        password,
         socialMedia: {
             linkedin,
             github,
@@ -38,6 +54,11 @@ export const alumniRegister = catchAsyncError(async (req, res, next) => {
             instagram,
             portfolio,
         },
+        profilePic: {
+            public_id: mycloud.public_id,
+            url: mycloud.secure_url,
+        },
+        dateOfBirth,
     });
 
     res.status(201).json({
@@ -46,6 +67,61 @@ export const alumniRegister = catchAsyncError(async (req, res, next) => {
         data: newUser,
     });
 
+});
+
+export const alumniLogin = catchAsyncError(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    console.log({ email, password });
+
+    if (!email || !password) {
+        return next(new ErrorHandler("Please enter email & password", 400));
+    }
+
+    const alumniUser = await Alumni.findOne({ email }).select("+password");
+    // console.log({ alumniUser });
+
+    if (!alumniUser) {
+        return next(new ErrorHandler("Invalid Email or Password", 401));
+    }
+
+    const isPasswordMatched = await alumniUser.comparePassword(password);
+
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler("Invalid Email or Password", 401));
+    }
+
+    sendToken(res, alumniUser, `Welcome back, ${alumniUser.firstName}`, 200);
+
+});
+
+export const alumniLogout = catchAsyncError(async (req, res, next) => {
+    res
+        .status(200)
+        .cookie("token", null, {
+            expires: new Date(Date.now()),
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        })
+        .json({
+            success: true,
+            message: "Logged Out Successfully",
+            isAlumniAuthenticated: false,
+        });
+});
+
+export const loadAlumniDetails = catchAsyncError(async (req, res, next) => {
+    const alumni = await Alumni.findById(req.user.id);
+
+    if (!alumni) {
+        return next(new ErrorHandler("Alumni not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        alumni,
+    });
 });
 
 export const getAlumni = catchAsyncError(async (req, res, next) => {
