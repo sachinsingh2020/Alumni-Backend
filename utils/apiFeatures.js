@@ -17,7 +17,6 @@ class ApiFeatures {
             }
             : {};
 
-
         this.query = this.query.find(keyword);
         return this;
     }
@@ -25,10 +24,16 @@ class ApiFeatures {
     filter() {
         const queryCopy = { ...this.queryStr };
 
-        // removing the fiels from the query 
+        // Remove fields that are not related to filtering
         const removeFields = ['keyword', 'limit', 'page'];
-
         removeFields.forEach(key => delete queryCopy[key]);
+
+        // Handling the 'skills' parameter
+        if (queryCopy.skills) {
+            const skillsArray = queryCopy.skills.split(',');
+            queryCopy.skillsRequired = { $all: skillsArray };
+            delete queryCopy.skills;
+        }
 
         this.query = this.query.find(queryCopy);
         return this;

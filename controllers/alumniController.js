@@ -107,6 +107,7 @@ export const alumniLogout = catchAsyncError(async (req, res, next) => {
         });
 });
 
+
 export const loadAlumniDetails = catchAsyncError(async (req, res, next) => {
     const alumni = await Alumni.findById(req.user.id);
     if (!alumni) {

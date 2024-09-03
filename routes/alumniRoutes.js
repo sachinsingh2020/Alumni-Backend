@@ -19,4 +19,5 @@ router.route("/deletealumni/:id").delete(deleteAlumni);
 
 router.route("/getalumnidetail/:id").get(getAlumniDetails);
 
+
 export default router;

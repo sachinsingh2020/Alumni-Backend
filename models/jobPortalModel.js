@@ -13,10 +13,6 @@ const schema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter the job location"],
     },
-    keyResponsibilities: {
-        type: String,
-        required: [true, "Please enter the key responsibilities"],
-    },
     skillsRequired: [
         {
             type: String,

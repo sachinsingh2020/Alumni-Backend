@@ -6,17 +6,16 @@ import ApiFeatures from "../utils/apiFeatures.js";
 
 export const createJob = catchAsyncError(async (req, res, next) => {
     const user = req.user;
-    // console.log({ user });
 
     if (user.role !== "alumni") {
         return next(new ErrorHandler("Only alumni can create job", 400));
     }
 
-    const { jobTitle, companyName, jobLocation, keyResponsibilities, skillsRequired, numberOfOpenings, perks, aboutCompany, jobType, expectedPackage } = req.body;
+    const { jobTitle, companyName, jobLocation, skillsRequired, numberOfOpenings, perks, aboutCompany, jobType, expectedPackage } = req.body;
 
-    // console.log({ jobTitle, companyName, jobLocation, keyResponsibilities, skillsRequired, numberOfOpenings, perks, aboutCompany, jobType, expectedPackage });
+    console.log({ jobTitle, companyName, jobLocation, skillsRequired, numberOfOpenings, perks, aboutCompany, jobType, expectedPackage });
 
-    if (!jobTitle || !companyName || !jobLocation || !keyResponsibilities || !numberOfOpenings || !aboutCompany || !jobType) {
+    if (!jobTitle || !companyName || !jobLocation || !numberOfOpenings || !aboutCompany || !jobType) {
         return next(new ErrorHandler("Please fill all the fields", 400));
     }
 
@@ -24,7 +23,6 @@ export const createJob = catchAsyncError(async (req, res, next) => {
         jobTitle,
         companyName,
         jobLocation,
-        keyResponsibilities,
         skillsRequired,
         numberOfOpenings,
         perks,
@@ -48,6 +46,7 @@ export const getAllJobs = catchAsyncError(async (req, res, next) => {
     const allJobs = await apiFeatures.query;
     const reversedJobs = allJobs.reverse();
     let filteredJobs = reversedJobs.length;
+    let filteredJobsCount = reversedJobs.length;
     // console.log({ reversedJobs });
 
     // Pagination 
@@ -59,9 +58,9 @@ export const getAllJobs = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         reversedJobs,
-        jobsCount,
         resultPerPage,
         filteredJobs,
+        filteredJobsCount,
     });
 });
 
