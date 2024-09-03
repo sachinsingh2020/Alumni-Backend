@@ -6,7 +6,7 @@ import ApiFeatures from "../utils/apiFeatures.js";
 
 export const createJob = catchAsyncError(async (req, res, next) => {
     const user = req.user;
-    console.log({ user });
+    // console.log({ user });
 
     if (user.role !== "alumni") {
         return next(new ErrorHandler("Only alumni can create job", 400));

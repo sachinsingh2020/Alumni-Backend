@@ -10,10 +10,8 @@ import { sendToken } from "../utils/sendToken.js";
 
 
 export const alumniRegister = catchAsyncError(async (req, res, next) => {
-    console.log('in the alumni register controller');
     const { firstName, lastName, email, password, dateOfBirth = "unknown", role = "alumni", graduationYear = "unknown", fieldOfStudy = "unknown", profession = "unknown", industry = "unknown", jobLocation = "unknown", linkedin = "unknown", github = "unknown", twitter = "unknown", instagram = "unknown", portfolio = "unknown" } = req.body;
 
-    console.log({ firstName, lastName, email, password, dateOfBirth, role, graduationYear, fieldOfStudy, profession, industry, jobLocation, linkedin, github, twitter, instagram, portfolio });
 
     const alreadyExist = await Alumni.findOne({ email: email });
 
@@ -72,8 +70,6 @@ export const alumniRegister = catchAsyncError(async (req, res, next) => {
 export const alumniLogin = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
 
-    console.log({ email, password });
-
     if (!email || !password) {
         return next(new ErrorHandler("Please enter email & password", 400));
     }
@@ -113,7 +109,6 @@ export const alumniLogout = catchAsyncError(async (req, res, next) => {
 
 export const loadAlumniDetails = catchAsyncError(async (req, res, next) => {
     const alumni = await Alumni.findById(req.user.id);
-
     if (!alumni) {
         return next(new ErrorHandler("Alumni not found", 404));
     }
