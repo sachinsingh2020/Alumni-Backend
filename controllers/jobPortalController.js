@@ -121,3 +121,5 @@ export const deleteJob = catchAsyncError(async (req, res, next) => {
         message: "Job deleted successfully",
     });
 });
+
+
